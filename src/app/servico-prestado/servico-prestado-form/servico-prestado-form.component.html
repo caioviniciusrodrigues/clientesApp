@@ -1,0 +1,53 @@
+<h1 class="mt-4">Serviço Prestado</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">Novo</li>
+</ol>
+
+<div class="container">
+  <form #form="ngForm" (ngSubmit)="onSubmit()">
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>Cliente: </label>
+          <select class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="servico.idCliente" >
+            <option value="">Selecione...</option>
+            <option [ngValue]="cliente.id" *ngFor="let cliente of clientes">
+                {{ cliente.nome }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="">Descrição</label>
+          <input type="text" id="inputDescricao" name="descricao" class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="servico.descricao">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="">Data</label>
+          <input type="text" id="inputData" name="data" class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="servico.data">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="">Preço</label>
+          <input type="text" id="inputPreco" name="preco" class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="servico.preco">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">
+        <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Salvar</button>
+      </div>
+    </div>
+
+  </form>
+</div>
