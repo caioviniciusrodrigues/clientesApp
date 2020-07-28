@@ -7,6 +7,15 @@
   <form #form="ngForm" (ngSubmit)="onSubmit()">
 
     <div class="row">
+      <div class="col-md-12" *ngIf="success">
+        <div class="alert alert-success">Serviço Prestado Salvo com Sucesso.</div>
+      </div>
+      <div class="col-md-12" *ngFor="let error of errors">
+        <div class="alert alert-danger">{{ error }}</div>
+      </div>
+    </div>
+
+    <div class="row">
       <div class="col-md-12">
         <div class="form-group">
           <label>Cliente: </label>
@@ -46,6 +55,9 @@
     <div class="row">
       <div class="col-md-3">
         <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Salvar</button>
+        <button type="submit" class="btn btn-danger ml-2" routerLink="/servico-prestado-lista">
+          <i class="fa fa-arrow-circle-left"></i> Voltar
+        </button>
       </div>
     </div>
 
