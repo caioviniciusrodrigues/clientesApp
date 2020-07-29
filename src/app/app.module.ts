@@ -14,12 +14,14 @@ import { HomeComponent } from './home/home.component';
 import { ClientesService } from './clientes.service';
 import { ClientesModule } from './clientes/clientes.module';
 import { LoginComponent } from './login/login.component';
+import { LayoutComponent } from './layout/layout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    LayoutComponent
   ],
   imports: [
     BrowserModule,
