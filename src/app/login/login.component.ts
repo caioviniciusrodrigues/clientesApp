@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { Usuario } from './usuario';
+import { AuthService } from '../auth.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,24 +14,67 @@ export class LoginComponent {
   username: string;
   password: string;
 
-  loginErro: boolean;
+  errors: string[];
+  mensagemSucesso: string;
 
   cadastrando: boolean;
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private auth: AuthService
+    ) { }
 
   onSubmit() {
-    this.router.navigate(['/home']);
-    console.log(` User: ${this.username}, Pass ${this.password}`);
+
+    this.mensagemSucesso = null;
+
+    this.auth.tentarLogar(this.username, this.password)
+      .subscribe(
+        response => {
+          const token = JSON.stringify(response);
+          localStorage.setItem('token', token);
+          this.router.navigate(['/home']);
+        },
+        errorResponse => {
+          this.errors = ['Usuário e/ou senha incorreto(s).'];
+        }
+      );
+
   }
 
   preparaCadastrar(event) {
     event.preventDefault();
     this.cadastrando = true;
+    this.mensagemSucesso = '';
   }
 
   cancelaCadastro() {
     this.cadastrando = false;
+    this.username = '';
+    this.password = '';
+    this.mensagemSucesso = '';
+    this.errors = null;
+  }
+
+  cadastrar() {
+    const usuario: Usuario = new Usuario();
+    usuario.username = this.username;
+    usuario.password = this.password;
+    this.auth
+        .salvar(usuario)
+        .subscribe(
+          response => {
+            this.mensagemSucesso = 'Cadastro realizado com sucesso, efetue login';
+            this.cadastrando = false;
+            this.username = '';
+            this.password = '';
+            this.errors = null;
+          },
+          errorResponse => {
+            this.mensagemSucesso = null;
+            this.errors = errorResponse.error.errors;
+          }
+        );
   }
 
 }
