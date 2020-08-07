@@ -31,11 +31,13 @@ export class LoginComponent {
     this.auth.tentarLogar(this.username, this.password)
       .subscribe(
         response => {
+          console.log(response);
           const token = JSON.stringify(response);
           localStorage.setItem('token', token);
           this.router.navigate(['/home']);
         },
         errorResponse => {
+          console.log(errorResponse);
           this.errors = ['Usuário e/ou senha incorreto(s).'];
         }
       );
