@@ -18,7 +18,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
     if(tokenString) {
       const token = JSON.parse(tokenString);
-      const jwt = token.access_token;
+      const jwt = token.token;
       request = request.clone({
         setHeaders: {
           Authorization: 'Bearer ' + jwt

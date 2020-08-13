@@ -10,7 +10,8 @@ const routes: Routes = [
   { path: 'servicos-prestados' , component: LayoutComponent, canActivate: [AuthGuard], children: [
     { path: '', redirectTo: '/servicos-prestados/lista', pathMatch: 'full' },
     { path: 'form', component: ServicoPrestadoFormComponent },
-    { path: 'lista', component: ServicoPrestadoListaComponent }
+    { path: 'lista', component: ServicoPrestadoListaComponent },
+    { path: '', redirectTo: '/servicos-prestados/lista', pathMatch: 'full'}
   ]}
 ];
 

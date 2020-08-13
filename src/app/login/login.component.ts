@@ -28,10 +28,11 @@ export class LoginComponent {
 
     this.mensagemSucesso = null;
 
+    localStorage.removeItem('token');
+
     this.auth.tentarLogar(this.username, this.password)
       .subscribe(
         response => {
-          console.log(response);
           const token = JSON.stringify(response);
           localStorage.setItem('token', token);
           this.router.navigate(['/home']);
@@ -46,6 +47,7 @@ export class LoginComponent {
 
   preparaCadastrar(event) {
     event.preventDefault();
+    localStorage.removeItem('token');
     this.cadastrando = true;
     this.mensagemSucesso = '';
   }

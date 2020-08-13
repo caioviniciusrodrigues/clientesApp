@@ -12,7 +12,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthService {
 
   apiUrl: string = `${environment.apiURLBase}/api/usuarios`;
-  tokenUrl: string = environment.apiURLBase + environment.obterTokenUrl;
+  tokenUrl: string = this.apiUrl + environment.obterTokenUrl;
   clientId: string = environment.clientId;
   clientSecret: string = environment.clientSecret;
 
@@ -21,9 +21,9 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   obterToken() {
-    const tokenString = localStorage.getItem('access_token');
+    const tokenString = localStorage.getItem('token');
     if(tokenString) {
-      return JSON.parse(tokenString).access_token;
+      return JSON.parse(tokenString).token;
     }
     return null;
   }
@@ -35,8 +35,10 @@ export class AuthService {
   getUsuarioAutenticado() {
     const token = this.obterToken();
     if(token) {
-      return JSON.parse(token).user_name;
+      const usuario = this.jwtHelper.decodeToken(token).sub;
+      return usuario;
     }
+    console.log('NULL');
     return null;
   }
 
@@ -54,6 +56,10 @@ export class AuthService {
   }
 
   tentarLogar(username: string, password: string): Observable<any>  {
+    const usuario: Usuario = new Usuario();
+    usuario.username = username;
+    usuario.password = password;
+  /*
     const params = new HttpParams()
                   .set('username', username)
                   .set('password', password)
@@ -63,8 +69,9 @@ export class AuthService {
       'Authorization' : 'Basic ' + btoa(`${this.clientId}:${this.clientSecret}`),
       'Content-Type' : 'application/x-www-form-urlencoded'
     };
-
-    return this.http.post<any>(this.tokenUrl, params.toString(), { headers });
+*/
+    return this.http.post<any>( this.tokenUrl, usuario );
+    //return this.http.post<any>(this.tokenUrl, params.toString(), { headers });
   }
 }
 
